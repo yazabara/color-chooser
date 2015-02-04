@@ -1,2 +1,2 @@
 cd ..
-set DEBUG=myapp & node .\bin\www
+set DEBUG=color-chooser & node .\bin\www

@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('../server/app');
 var debug = require('debug')('color-chooser:server');
 var http = require('http');
 
@@ -60,7 +60,7 @@ function onError(error) {
 
   var bind = typeof port === 'string'
     ? 'Pipe ' + port
-    : 'Port ' + port
+    : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
