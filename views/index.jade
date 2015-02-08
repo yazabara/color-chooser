@@ -1,6 +1,7 @@
 extends layouts/layout
 
 block content
-  .pre-content-line.gradient
-  h1= title
-  p Welcome to #{title}
+    .content(ng-controller='backgroundColor',style='background-color: {{backgroundColor}}')
+        .pre-content-line.gradient
+        h1= title
+        p Welcome to #{title}

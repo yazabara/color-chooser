@@ -4,7 +4,6 @@ var settings = {
     firebaseUrl: 'https://blinding-inferno-9356.firebaseio.com/'
 };
 
-var colorApp = angular.module('colorApp', ['ngRoute', 'firebase'], function () {
+var colorApp = angular.module('colorApp', [], function () {
 
-    console.log('qwe');
 }).constant('FIRE_BASE_URL', settings.firebaseUrl);
