@@ -1,10 +1,9 @@
-'use strict';
-
 var settings = {
     firebaseUrl: 'https://blinding-inferno-9356.firebaseio.com/'
 };
 
 var colorApp = angular.module('colorApp', [], function () {
+    'use strict';
 
 }).constant('FIRE_BASE_URL', settings.firebaseUrl);
 /**
@@ -12,6 +11,12 @@ var colorApp = angular.module('colorApp', [], function () {
  */
 colorApp.factory('ColorConverterService', ['$log', function ($log) {
     'use strict';
+
+    var rgbWhite = {
+        red:255,
+        green: 255,
+        blue: 255
+    };
 
     /**
      * Converts an RGB color value to HSL. Conversion formula
@@ -101,9 +106,9 @@ colorApp.factory('ColorConverterService', ['$log', function ($log) {
      * @return  Array   The HSV representation
      */
     function rgbToHsv(r, g, b) {
-        r = r / 255;
-        g = g / 255;
-        b = b / 255;
+        r /= 255;
+        g /= 255;
+        b /= 255;
         var max = Math.max(r, g, b), min = Math.min(r, g, b);
         var h, s, v = max;
 
@@ -186,19 +191,129 @@ colorApp.factory('ColorConverterService', ['$log', function ($log) {
         return [r * 255, g * 255, b * 255];
     }
 
+    function rgbToHex(r, g, b) {
+        return '#' + byte2Hex(r) + byte2Hex(g) + byte2Hex(b);
+    }
+
+    function byte2Hex(n) {
+        var nybHexString = "0123456789ABCDEF";
+        return String(nybHexString.substr((n >> 4) & 0x0F, 1)) + nybHexString.substr(n & 0x0F, 1);
+    }
+
+    function hexToRgb(hex) {
+        if (!hex) return rgbWhite;
+
+        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+            return r + r + g + g + b + b;
+        });
+
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            red: parseInt(result[1], 16),
+            green: parseInt(result[2], 16),
+            blue: parseInt(result[3], 16)
+        } : rgbWhite;
+    }
+
     return {
         hsvToRgb: hsvToRgb,
         rgbToHsv: rgbToHsv,
         hslToRgb: hslToRgb,
-        rgbToHsl: rgbToHsl
+        rgbToHsl: rgbToHsl,
+        rgbToHex: rgbToHex,
+        hexToRgb: hexToRgb
+    }
+
+}]);
+/**
+ * Information from http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+ */
+colorApp.factory('ColorGeneratorService', ['$log', function ($log) {
+    'use strict';
+
+    function generateRandomColor(mix) {
+        var red = nextColorNumber();
+        var green = nextColorNumber();
+        var blue = nextColorNumber();
+
+        // mix the color
+        if (mix) {
+            red = (red + mix.red) / 2;
+            green = (green + mix.green) / 2;
+            blue = (blue + mix.blue) / 2;
+        }
+
+        return {
+            red: red,
+            green: green,
+            blue: blue
+        };
+    }
+
+    function getContrast50(hexcolor){
+        return (parseInt(hexcolor, 16) > 0xffffff/2) ? 'black':'white';
+    }
+
+    function getContrastYIQ(hexcolor){
+        var r = parseInt(hexcolor.substr(0,2),16);
+        var g = parseInt(hexcolor.substr(2,2),16);
+        var b = parseInt(hexcolor.substr(4,2),16);
+        var yiq = ((r*299)+(g*587)+(b*114))/1000;
+        return (yiq >= 128) ? 'black' : 'white';
+    }
+
+    /**
+     * method maks number [0,256]
+     * @returns {number}
+     */
+    function nextColorNumber() {
+        return Math.random() * 256;
+    }
+
+    return {
+        generateRandomColor: generateRandomColor,
+        generateFontColor: getContrastYIQ
     }
 
 }]);
 colorApp.controller("backgroundColor", ['ColorConverterService', '$log', '$scope', function (ColorConverterService, $log, $scope) {
+    'use strict';
+
     var hsl =  ColorConverterService.rgbToHsl(123, 123, 123);
     $log.log("color hsl: " + hsl);
     var rgb = ColorConverterService.hslToRgb(hsl[0],hsl[1],hsl[2]);
     $log.log("color rgb: " + rgb);
 
     $scope.backgroundColor = "rgb("+rgb+")";
+}]);
+colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterService', '$log', '$scope', function (ColorGeneratorService, ColorConverterService, $log, $scope) {
+    'use strict';
+
+    $scope.generated = [];
+    $scope.generatedColorSize = 100;
+
+    $scope.init = function (initColor) {
+
+        var previous = initColor ? ColorConverterService.hexToRgb(initColor) : ColorGeneratorService.generateRandomColor(null);
+
+        for (var i = 0; i < $scope.generatedColorSize; i++) {
+            var color = ColorGeneratorService.generateRandomColor(previous);
+            var hexColor = ColorConverterService.rgbToHex(color.red, color.green, color.blue);
+
+            var colorItem = {
+                background: hexColor,
+                color: ColorGeneratorService.generateFontColor(hexColor.substring(1, hexColor.length))
+            };
+
+            if ($scope.generated.indexOf(colorItem) == -1)
+                $scope.generated.push(colorItem);
+
+            previous = color;
+        }
+    };
+
+    $scope.init('#33001e');
+
 }]);

@@ -1,0 +1,55 @@
+.color-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 90%;
+  margin: auto;
+  position: relative;
+
+  .color-item {
+    margin: 0.1em;
+    line-height: 10em;
+    text-align: center;
+    cursor: pointer;
+
+    .color-title {
+      opacity: 0.7;
+    }
+  }
+}
+
+.magic-box {
+  position: relative;
+  transform: rotateY(0deg);
+  transition: transform .45s ease-out;
+  transform-style: preserve-3d;
+
+  &:hover {
+    transform: rotateY(100deg);
+  }
+}
+
+.magic-box  > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.magic-box  > .front {
+  transform: translateZ(40px);
+}
+
+.magic-box  > .back {
+  background-color: #40966D;
+  transform: rotateY(-100deg) translateZ(40px);
+}
+
+.color-box {
+  width: 10em;
+  height: 10em;
+  border-radius: 1em;
+}
+
+

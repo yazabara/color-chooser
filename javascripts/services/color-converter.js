@@ -4,6 +4,12 @@
 colorApp.factory('ColorConverterService', ['$log', function ($log) {
     'use strict';
 
+    var rgbWhite = {
+        red:255,
+        green: 255,
+        blue: 255
+    };
+
     /**
      * Converts an RGB color value to HSL. Conversion formula
      * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
@@ -92,9 +98,9 @@ colorApp.factory('ColorConverterService', ['$log', function ($log) {
      * @return  Array   The HSV representation
      */
     function rgbToHsv(r, g, b) {
-        r = r / 255;
-        g = g / 255;
-        b = b / 255;
+        r /= 255;
+        g /= 255;
+        b /= 255;
         var max = Math.max(r, g, b), min = Math.min(r, g, b);
         var h, s, v = max;
 
@@ -177,11 +183,39 @@ colorApp.factory('ColorConverterService', ['$log', function ($log) {
         return [r * 255, g * 255, b * 255];
     }
 
+    function rgbToHex(r, g, b) {
+        return '#' + byte2Hex(r) + byte2Hex(g) + byte2Hex(b);
+    }
+
+    function byte2Hex(n) {
+        var nybHexString = "0123456789ABCDEF";
+        return String(nybHexString.substr((n >> 4) & 0x0F, 1)) + nybHexString.substr(n & 0x0F, 1);
+    }
+
+    function hexToRgb(hex) {
+        if (!hex) return rgbWhite;
+
+        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+            return r + r + g + g + b + b;
+        });
+
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            red: parseInt(result[1], 16),
+            green: parseInt(result[2], 16),
+            blue: parseInt(result[3], 16)
+        } : rgbWhite;
+    }
+
     return {
         hsvToRgb: hsvToRgb,
         rgbToHsv: rgbToHsv,
         hslToRgb: hslToRgb,
-        rgbToHsl: rgbToHsl
+        rgbToHsl: rgbToHsl,
+        rgbToHex: rgbToHex,
+        hexToRgb: hexToRgb
     }
 
 }]);

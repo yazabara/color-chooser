@@ -26,3 +26,45 @@ body {
   background: -o-linear-gradient(left, rgba(255, 138, 84, 0.9) 0%, rgba(219, 184, 97, 0.9) 11%, rgba(163, 255, 117, 0.9) 28%, rgba(43, 213, 255, 0.9) 50%, rgba(77, 0, 166, 0.9) 74%, rgba(125, 14, 175, 0.9) 81%, rgba(255, 51, 201, 0.9) 100%);
   background: -ms-linear-gradient(left, rgba(255, 138, 84, 0.9) 0%, rgba(219, 184, 97, 0.9) 11%, rgba(163, 255, 117, 0.9) 28%, rgba(43, 213, 255, 0.9) 50%, rgba(77, 0, 166, 0.9) 74%, rgba(125, 14, 175, 0.9) 81%, rgba(255, 51, 201, 0.9) 100%);
   background: linear-gradient(to right, rgba(255, 138, 84, 0.9) 0%, rgba(219, 184, 97, 0.9) 11%, rgba(163, 255, 117, 0.9) 28%, rgba(43, 213, 255, 0.9) 50%, rgba(77, 0, 166, 0.9) 74%, rgba(125, 14, 175, 0.9) 81%, rgba(255, 51, 201, 0.9) 100%); }
+
+.color-items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 90%;
+  margin: auto;
+  position: relative; }
+  .color-items .color-item {
+    margin: 0.1em;
+    line-height: 10em;
+    text-align: center;
+    cursor: pointer; }
+    .color-items .color-item .color-title {
+      opacity: 0.7; }
+
+.magic-box {
+  position: relative;
+  transform: rotateY(0deg);
+  transition: transform 0.45s ease-out;
+  transform-style: preserve-3d; }
+  .magic-box:hover {
+    transform: rotateY(100deg); }
+
+.magic-box > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; }
+
+.magic-box > .front {
+  transform: translateZ(40px); }
+
+.magic-box > .back {
+  background-color: #40966D;
+  transform: rotateY(-100deg) translateZ(40px); }
+
+.color-box {
+  width: 10em;
+  height: 10em;
+  border-radius: 1em; }
