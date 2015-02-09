@@ -1,14 +1,15 @@
 extends layouts/layout
 
 block content
-    .content
+    .content(ng-controller='generateColors', style='background-color: {{backgroundColor}}')
         .pre-content-line.gradient
-
-        .bg-color(ng-controller='backgroundColor',style='background-color: {{backgroundColor}}')
+        .bg-color
             h1= title
             p Welcome to #{title}
-        .gn-color.color-items(ng-controller='generateColors')
-            .color-item.magic-box.color-box(ng-repeat="color in  generated", style="background-color: {{color.background}}")
+        .gn-color.color-items
+            .color-item.magic-box.color-box(ng-repeat="color in  generated", style="background-color: {{color.background}}", ng-click="setBackgroundColor(color.background)")
                 .front
                 .back.color-box
-                    sstrong.color-title(style="color: {{color.color}}") {{color.background}}
+                    strong.color-title(style="color: {{color.color}}") {{color.background}}
+            .color-item.color-box.gradient(ng-click="addColors()")
+                    strong.color-title(style="color: #C65153;") Do you want more?

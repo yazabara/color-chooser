@@ -278,27 +278,17 @@ colorApp.factory('ColorGeneratorService', ['$log', function ($log) {
     }
 
 }]);
-colorApp.controller("backgroundColor", ['ColorConverterService', '$log', '$scope', function (ColorConverterService, $log, $scope) {
-    'use strict';
-
-    var hsl =  ColorConverterService.rgbToHsl(123, 123, 123);
-    $log.log("color hsl: " + hsl);
-    var rgb = ColorConverterService.hslToRgb(hsl[0],hsl[1],hsl[2]);
-    $log.log("color rgb: " + rgb);
-
-    $scope.backgroundColor = "rgb("+rgb+")";
-}]);
 colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterService', '$log', '$scope', function (ColorGeneratorService, ColorConverterService, $log, $scope) {
     'use strict';
 
     $scope.generated = [];
-    $scope.generatedColorSize = 100;
+    $scope.backgroundColor = 'wheat';
 
-    $scope.init = function (initColor) {
-
+    $scope.addColors = function(size, initColor) {
+        var generateSize = size ? size : 10;
         var previous = initColor ? ColorConverterService.hexToRgb(initColor) : ColorGeneratorService.generateRandomColor(null);
 
-        for (var i = 0; i < $scope.generatedColorSize; i++) {
+        for (var i = 0; i < generateSize; i++) {
             var color = ColorGeneratorService.generateRandomColor(previous);
             var hexColor = ColorConverterService.rgbToHex(color.red, color.green, color.blue);
 
@@ -312,8 +302,14 @@ colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterS
 
             previous = color;
         }
+
     };
 
-    $scope.init('#33001e');
+    $scope.addColors(50,'#33001e');
+    $scope.setBackgroundColor = function(newColor) {
+        $log.log(newColor);
+        if (!newColor) return;
+        $scope.backgroundColor = newColor;
+    };
 
 }]);
