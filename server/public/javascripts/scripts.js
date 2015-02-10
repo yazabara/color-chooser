@@ -252,10 +252,12 @@ colorApp.factory('ColorGeneratorService', ['$log', function ($log) {
         };
     }
 
+    //generateFontColor
     function getContrast50(hexcolor){
         return (parseInt(hexcolor, 16) > 0xffffff/2) ? 'black':'white';
     }
 
+    //generateFontColor
     function getContrastYIQ(hexcolor){
         var r = parseInt(hexcolor.substr(0,2),16);
         var g = parseInt(hexcolor.substr(2,2),16);
@@ -281,10 +283,11 @@ colorApp.factory('ColorGeneratorService', ['$log', function ($log) {
 colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterService', '$log', '$scope', function (ColorGeneratorService, ColorConverterService, $log, $scope) {
     'use strict';
 
+    $scope.defaultColor = "#33001e";
     $scope.generated = [];
     $scope.backgroundColor = 'wheat';
 
-    $scope.addColors = function(size, initColor) {
+    $scope.generateRandom = function(size, initColor) {
         var generateSize = size ? size : 10;
         var previous = initColor ? ColorConverterService.hexToRgb(initColor) : ColorGeneratorService.generateRandomColor(null);
 
@@ -293,7 +296,7 @@ colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterS
             var hexColor = ColorConverterService.rgbToHex(color.red, color.green, color.blue);
 
             var colorItem = {
-                background: hexColor,
+                hexColor: hexColor,
                 color: ColorGeneratorService.generateFontColor(hexColor.substring(1, hexColor.length))
             };
 
@@ -305,11 +308,10 @@ colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterS
 
     };
 
-    $scope.addColors(50,'#33001e');
-    $scope.setBackgroundColor = function(newColor) {
-        $log.log(newColor);
-        if (!newColor) return;
-        $scope.backgroundColor = newColor;
+    $scope.generateRandom(20, $scope.defaultColor);
+    $scope.setBackgroundColor = function(colorItem) {
+        if (!colorItem) return;
+        $scope.backgroundColor = colorItem.hexColor;
     };
 
 }]);

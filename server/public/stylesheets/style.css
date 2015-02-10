@@ -27,6 +27,10 @@ body {
   background: -ms-linear-gradient(left, rgba(255, 138, 84, 0.9) 0%, rgba(219, 184, 97, 0.9) 11%, rgba(163, 255, 117, 0.9) 28%, rgba(43, 213, 255, 0.9) 50%, rgba(77, 0, 166, 0.9) 74%, rgba(125, 14, 175, 0.9) 81%, rgba(255, 51, 201, 0.9) 100%);
   background: linear-gradient(to right, rgba(255, 138, 84, 0.9) 0%, rgba(219, 184, 97, 0.9) 11%, rgba(163, 255, 117, 0.9) 28%, rgba(43, 213, 255, 0.9) 50%, rgba(77, 0, 166, 0.9) 74%, rgba(125, 14, 175, 0.9) 81%, rgba(255, 51, 201, 0.9) 100%); }
 
+.color-box {
+  width: 10em;
+  height: 10em; }
+
 .color-items {
   display: flex;
   flex-wrap: wrap;
@@ -35,6 +39,7 @@ body {
   margin: auto;
   position: relative; }
   .color-items .color-item {
+    position: relative;
     margin: 0.1em;
     line-height: 10em;
     text-align: center;
@@ -46,7 +51,8 @@ body {
   position: relative;
   transform: rotateY(0deg);
   transition: transform 0.45s ease-out;
-  transform-style: preserve-3d; }
+  transform-style: preserve-3d;
+  background-color: #40966D; }
   .magic-box:hover {
     transform: rotateY(100deg); }
 
@@ -64,7 +70,24 @@ body {
   background-color: #40966D;
   transform: rotateY(-100deg) translateZ(40px); }
 
-.color-box {
-  width: 10em;
-  height: 10em;
-  border-radius: 1em; }
+.masked-box {
+  overflow: hidden;
+  transition: all 0.5s ease-in-out; }
+  .masked-box .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    visibility: visible;
+    background-color: #18bc9c;
+    transition: all 0.5s ease-in-out; }
+  .masked-box:hover {
+    -webkit-box-shadow: inset 0px 0px 10em 0em #f0bf00;
+    -moz-box-shadow: inset 0px 0px 10em 0em #f0bf00;
+    box-shadow: inset 0px 0px 10em 0em #f0bf00; }
+    .masked-box:hover .mask {
+      opacity: 0;
+      background-color: #f0bf00;
+      visibility: hidden; }
+  .masked-box .color-title {
+    font-size: 2em; }

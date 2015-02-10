@@ -7,9 +7,12 @@ block content
             h1= title
             p Welcome to #{title}
         .gn-color.color-items
-            .color-item.magic-box.color-box(ng-repeat="color in  generated", style="background-color: {{color.background}}", ng-click="setBackgroundColor(color.background)")
+            .color-item.magic-box.color-box(ng-repeat="colorItem in  generated", style="background-color: {{colorItem.hexColor}}", ng-click="setBackgroundColor(colorItem)")
                 .front
                 .back.color-box
-                    strong.color-title(style="color: {{color.color}}") {{color.background}}
-            .color-item.color-box.gradient(ng-click="addColors()")
-                    strong.color-title(style="color: #C65153;") Do you want more?
+                    strong.color-title(style="color: {{colorItem.color}}") {{colorItem.hexColor}}
+
+            .color-item.color-box.masked-box(ng-click="generateRandom()")
+                strong.color-title(style="color: #C65153;") Generate
+                .mask.color-box
+                    strong.color-title(style="color: #C65153;") More?

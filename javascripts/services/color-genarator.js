@@ -23,10 +23,12 @@ colorApp.factory('ColorGeneratorService', ['$log', function ($log) {
         };
     }
 
+    //generateFontColor
     function getContrast50(hexcolor){
         return (parseInt(hexcolor, 16) > 0xffffff/2) ? 'black':'white';
     }
 
+    //generateFontColor
     function getContrastYIQ(hexcolor){
         var r = parseInt(hexcolor.substr(0,2),16);
         var g = parseInt(hexcolor.substr(2,2),16);
