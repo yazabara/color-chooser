@@ -14,9 +14,13 @@
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <!--Jquery-->
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!--script(type="text/javascript", src="javascripts/libs/jquery-1.11.1.js")-->
     <!--AngularJS-->
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.min.js"></script>
+    <!--script(type="text/javascript", src="javascripts/libs/angular.min.js")-->
+    <!--script(type="text/javascript", src="javascripts/libs/angular.min.js.map")-->
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-resource.min.js"></script>
+    <!--script(type="text/javascript", src="javascripts/libs/angular-resource.min.js")-->
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-route.min.js"></script>
     <!--Firebase-->
     <script src="https://cdn.firebase.com/js/client/2.0.4/firebase.js"></script>
@@ -34,10 +38,21 @@
     <script type="text/javascript" src="javascripts/scripts.js"></script>
   </head>
   <body>
-    <div ng-controller="backgroundColor" class="content">
+    <div ng-controller="generateColors" style="background-color: {{backgroundColor}}" class="content">
       <div class="pre-content-line gradient"></div>
-      <h1></h1>
-      <p>Welcome to </p>
+      <div class="bg-color">
+        <h1></h1>
+        <p>Welcome to </p>
+      </div>
+      <div class="gn-color color-items">
+        <div ng-repeat="colorItem in  generated" style="background-color: {{colorItem.hexColor}}" ng-click="setBackgroundColor(colorItem)" class="color-item magic-box color-box">
+          <div class="front"></div>
+          <div class="back color-box"><strong style="color: {{colorItem.color}}" class="color-title">{{colorItem.hexColor}}</strong></div>
+        </div>
+        <div ng-click="generateRandom()" class="color-item color-box masked-box"><strong style="color: #C65153;" class="color-title">Generate</strong>
+          <div class="mask color-box"><strong style="color: #C65153;" class="color-title">More?</strong></div>
+        </div>
+      </div>
     </div>
     <footer class="footer">
       <div id="footer" class="gradient">
