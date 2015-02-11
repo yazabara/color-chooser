@@ -1,16 +1,17 @@
 extends layouts/layout
 
 block content
-    .content(ng-controller='generateColors', style='background-color: {{backgroundColor}}')
+    .content(ng-controller='generateColors', style='background-color: {{generated[backgroundIndex].hexColor}}')
         .pre-content-line.gradient
         .bg-color
             h1= title
             p Welcome to #{title}
         .gn-color.color-items
-            .color-item.magic-box.color-box(ng-repeat="colorItem in  generated", style="background-color: {{colorItem.hexColor}}", ng-click="setBackgroundColor(colorItem)")
+            .color-item.color-box.magic-box(ng-repeat="colorItem in  generated", ng-style="{'background-color' : colorItem.hexColor}", ng-click="setBackgroundColor($index)")
                 .front
+                    strong.color-title(ng-style="{color: {{colorItem.color}}}") {{colorItem.hexColor}}
                 .back.color-box
-                    strong.color-title(style="color: {{colorItem.color}}") {{colorItem.hexColor}}
+                    input.color-input(ng-model="colorItem.hexColor", type="text", ng-style="{'color' : colorItem.color}")
 
             .color-item.color-box.masked-box(ng-click="generateRandom()")
                 strong.color-title(style="color: #C65153;") Generate

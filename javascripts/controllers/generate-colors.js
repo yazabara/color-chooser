@@ -2,8 +2,11 @@ colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterS
     'use strict';
 
     $scope.defaultColor = "#33001e";
-    $scope.generated = [];
-    $scope.backgroundColor = 'wheat';
+    $scope.generated = [{
+        hexColor: "#F5DEB3",
+        color: "black"
+    }];
+    $scope.backgroundIndex = 0;
 
     $scope.generateRandom = function(size, initColor) {
         var generateSize = size ? size : 10;
@@ -27,9 +30,9 @@ colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterS
     };
 
     $scope.generateRandom(20, $scope.defaultColor);
-    $scope.setBackgroundColor = function(colorItem) {
-        if (!colorItem) return;
-        $scope.backgroundColor = colorItem.hexColor;
+    $scope.setBackgroundColor = function(index) {
+        if (index < 0 || index >= $scope.generated.length) return;
+        $scope.backgroundIndex = index;
     };
 
 }]);
