@@ -41,11 +41,7 @@ body {
   .color-items .color-item {
     position: relative;
     margin: 0.1em;
-    text-align: center;
-    cursor: pointer; }
-    .color-items .color-item .color-title {
-      opacity: 0.7;
-      line-height: 10em; }
+    text-align: center; }
     .color-items .color-item .color-input {
       margin-top: 2.7em;
       width: 70%;
@@ -56,49 +52,23 @@ body {
       text-transform: uppercase;
       font-size: 20px;
       border: 1px inset #CCCCCC; }
+    .color-items .color-item .color-title {
+      opacity: 0.7;
+      line-height: 10em; }
 
-.magic-box {
-  position: relative;
-  transform: rotateY(0deg);
-  transition: transform 0.45s ease-out;
-  transform-style: preserve-3d;
-  background-color: #40966D; }
-  .magic-box:hover {
-    transform: rotateY(100deg); }
+.generate-more i {
+  line-height: 3.4em !important; }
 
-.magic-box > div {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0; }
-
-.magic-box > .front {
-  transform: translateZ(40px); }
-
-.magic-box > .back {
-  background-color: #40966D;
-  transform: rotateY(-100deg) translateZ(40px); }
-
-.masked-box {
-  overflow: hidden;
-  transition: all 0.5s ease-in-out; }
-  .masked-box .mask {
+.hover-item {
+  overflow: hidden; }
+  .hover-item .top-section {
     position: absolute;
-    top: 0;
     left: 0;
+    bottom: 0;
     cursor: pointer;
-    visibility: visible;
-    background-color: #18bc9c;
-    transition: all 0.5s ease-in-out; }
-  .masked-box:hover {
-    -webkit-box-shadow: inset 0px 0px 10em 0em #f0bf00;
-    -moz-box-shadow: inset 0px 0px 10em 0em #f0bf00;
-    box-shadow: inset 0px 0px 10em 0em #f0bf00; }
-    .masked-box:hover .mask {
-      opacity: 0;
-      background-color: #f0bf00;
-      visibility: hidden; }
-  .masked-box .color-title {
-    font-size: 2em;
-    line-height: 5em !important; }
+    -webkit-transition: bottom 0.3s ease-in-out;
+    -moz-transition: bottom 0.3s ease-in-out;
+    -o-transition: bottom 0.3s ease-in-out;
+    transition: bottom 0.3s ease-in-out; }
+  .hover-item:hover .top-section {
+    bottom: -70%; }

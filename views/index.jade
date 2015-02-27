@@ -1,19 +1,18 @@
 extends layouts/layout
 
 block content
-    .content(ng-controller='generateColors', style='background-color: {{generated[backgroundIndex].hexColor}}')
+    .content(ng-controller='generateColors', style='background-color: {{generated[backgroundIndex].background}}')
         .pre-content-line.gradient
         .bg-color
             h1= title
             p Welcome to #{title}
         .gn-color.color-items
-            .color-item.color-box.magic-box(ng-repeat="colorItem in  generated", ng-style="{'background-color' : colorItem.hexColor}", ng-click="setBackgroundColor($index)")
-                .front
-                    strong.color-title(ng-style="{color: {{colorItem.color}}}") {{colorItem.hexColor}}
-                .back.color-box
-                    input.color-input(ng-model="colorItem.hexColor", type="text", ng-style="{'color' : colorItem.color}")
+            .color-item.color-box.hover-item(ng-repeat="colorItem in generated", style="background-color: white")
+                input.color-input(ng-model="colorItem.backgroundInput",ng-change="colorChange(colorItem)", type="text")
+                .top-section.color-box(ng-style="{'background-color' : colorItem.background}",ng-click="setBackgroundColor($index)")
+                    strong.color-title(ng-style="{'color' : colorItem.color}") {{colorItem.background}}
 
-            .color-item.color-box.masked-box(ng-click="generateRandom()")
+            .color-item.color-box.hover-item.generate-more(ng-click="generateRandom()",style="background-color: white;")
                 strong.color-title(style="color: #C65153;") Generate
-                .mask.color-box
-                    strong.color-title(style="color: #C65153;") More?
+                .top-section.color-box(style="background-color: #18bc9c;")
+                    i.fa.fa-refresh.fa-spin.fa-3x.fa-fw

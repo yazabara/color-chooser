@@ -280,12 +280,36 @@ colorApp.factory('ColorGeneratorService', ['$log', function ($log) {
     }
 
 }]);
-colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterService', '$log', '$scope', function (ColorGeneratorService, ColorConverterService, $log, $scope) {
+colorApp.factory('ColorValidatorService', ['$log', function ($log) {
+    'use strict';
+
+    function validateColour(stringToTest) {
+        if (stringToTest === "") { return false; }
+        if (stringToTest === "inherit") { return false; }
+        if (stringToTest === "transparent") { return false; }
+
+        var image = document.createElement("img");
+        image.style.color = "rgb(0, 0, 0)";
+        image.style.color = stringToTest;
+        if (image.style.color !== "rgb(0, 0, 0)") { return true; }
+        image.style.color = "rgb(255, 255, 255)";
+        image.style.color = stringToTest;
+        return image.style.color !== "rgb(255, 255, 255)";
+    }
+
+    return {
+        validateColour: validateColour
+    }
+}]);
+
+
+colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterService', 'ColorValidatorService', '$log', '$scope', function (ColorGeneratorService, ColorConverterService, ColorValidatorService, $log, $scope) {
     'use strict';
 
     $scope.defaultColor = "#33001e";
     $scope.generated = [{
-        hexColor: "#F5DEB3",
+        background: "#F5DEB3",
+        backgroundInput: "#F5DEB3",
         color: "black"
     }];
     $scope.backgroundIndex = 0;
@@ -296,11 +320,12 @@ colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterS
 
         for (var i = 0; i < generateSize; i++) {
             var color = ColorGeneratorService.generateRandomColor(previous);
-            var hexColor = ColorConverterService.rgbToHex(color.red, color.green, color.blue);
+            var background = ColorConverterService.rgbToHex(color.red, color.green, color.blue);
 
             var colorItem = {
-                hexColor: hexColor,
-                color: ColorGeneratorService.generateFontColor(hexColor.substring(1, hexColor.length))
+                background: background,
+                backgroundInput: background,
+                color: ColorGeneratorService.generateFontColor(background.substring(1, background.length))
             };
 
             if ($scope.generated.indexOf(colorItem) == -1)
@@ -308,13 +333,20 @@ colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterS
 
             previous = color;
         }
-
     };
 
-    $scope.generateRandom(20, $scope.defaultColor);
+    $scope.generateRandom(10, $scope.defaultColor);
     $scope.setBackgroundColor = function(index) {
         if (index < 0 || index >= $scope.generated.length) return;
         $scope.backgroundIndex = index;
+    };
+
+    $scope.colorChange = function(colorItem) {
+        if(ColorValidatorService.validateColour(colorItem.backgroundInput)) {
+            colorItem.background = colorItem.backgroundInput;
+            colorItem.color = ColorGeneratorService.generateFontColor(colorItem.background.substring(1, colorItem.background.length));
+        }
+        console.log(colorItem);
     };
 
 }]);
