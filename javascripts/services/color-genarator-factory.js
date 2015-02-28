@@ -8,14 +8,12 @@ colorApp.factory('ColorGeneratorService', ['$log', function ($log) {
         var red = nextColorNumber();
         var green = nextColorNumber();
         var blue = nextColorNumber();
-
         // mix the color
         if (mix) {
             red = (red + mix.red) / 2;
             green = (green + mix.green) / 2;
             blue = (blue + mix.blue) / 2;
         }
-
         return {
             red: red,
             green: green,

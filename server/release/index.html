@@ -34,20 +34,22 @@
     <!--momentjs-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.js"></script>
     <!--custom-->
-    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="stylesheets/style.css">
     <script type="text/javascript" src="javascripts/scripts.js"></script>
   </head>
   <body>
-    <div ng-controller="generateColors" style="background-color: {{backgroundColor}}" class="content">
+    <div ng-controller="generateColors" style="background-color: {{generated[backgroundIndex].hexColor}}" class="content">
       <div class="pre-content-line gradient"></div>
       <div class="bg-color">
         <h1></h1>
         <p>Welcome to </p>
       </div>
       <div class="gn-color color-items">
-        <div ng-repeat="colorItem in  generated" style="background-color: {{colorItem.hexColor}}" ng-click="setBackgroundColor(colorItem)" class="color-item magic-box color-box">
-          <div class="front"></div>
-          <div class="back color-box"><strong style="color: {{colorItem.color}}" class="color-title">{{colorItem.hexColor}}</strong></div>
+        <div ng-repeat="colorItem in  generated" ng-style="{'background-color' : colorItem.hexColor}" ng-click="setBackgroundColor($index)" class="color-item color-box slideTextLeft">
+          <div class="front"><strong ng-style="{color: {{colorItem.color}}}" class="color-title">{{colorItem.hexColor}}</strong></div>
+          <div class="back color-box">
+            <input ng-model="colorItem.hexColor" type="text" ng-style="{'color' : colorItem.color}" class="color-input">
+          </div>
         </div>
         <div ng-click="generateRandom()" class="color-item color-box masked-box"><strong style="color: #C65153;" class="color-title">Generate</strong>
           <div class="mask color-box"><strong style="color: #C65153;" class="color-title">More?</strong></div>

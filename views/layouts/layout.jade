@@ -5,7 +5,10 @@ html(ng-app="colorApp")
         block headSection
             include ../common-blocks/head-section
     body
-        block content
+        .header
+            block header
+        .content
+            block content
 
         block footer-block
             include ../common-blocks/footer

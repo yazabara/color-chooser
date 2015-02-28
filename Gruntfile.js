@@ -22,7 +22,7 @@ module.exports = function (grunt) {
         },
         concat: {
             main: {
-                src: ['javascripts/app.js','javascripts/services/*.js','javascripts/controllers/*.js'],
+                src: ['javascripts/app.js','javascripts/directives/*.js','javascripts/services/*.js','javascripts/controllers/*.js'],
                 dest: 'server/public/javascripts/scripts.js'
             }
         },

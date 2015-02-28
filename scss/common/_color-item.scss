@@ -14,72 +14,29 @@
   .color-item {
     position: relative;
     margin: 0.1em;
-    line-height: 10em;
     text-align: center;
-    cursor: pointer;
+
+    .color-input {
+      margin-top: 2.7em;
+      width: 70%;
+      background: transparent;
+      cursor: pointer;
+      opacity: 0.7;
+      text-align: center;
+      text-transform: uppercase;
+      font-size: 20px;
+      border: 1px inset #CCCCCC;
+    }
 
     .color-title {
       opacity: 0.7;
+      line-height: 10em;
     }
   }
 }
 
-.magic-box {
-  position: relative;
-  transform: rotateY(0deg);
-  transition: transform .45s ease-out;
-  transform-style: preserve-3d;
-  background-color: $default-color;
-
-  &:hover {
-    transform: rotateY(100deg);
+.generate-more {
+  i {
+    line-height: 3.4em !important;
   }
 }
-
-.magic-box  > div {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-
-.magic-box  > .front {
-  transform: translateZ(40px);
-}
-
-.magic-box  > .back {
-  background-color: $default-color;
-  transform: rotateY(-100deg) translateZ(40px);
-}
-
-.masked-box {
-  overflow: hidden;
-  transition: all 0.5s ease-in-out;
-
-  .mask {
-    position: absolute;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    visibility:visible;
-    background-color: $turquoise;
-    transition: all 0.5s ease-in-out;
-  }
-
-  &:hover {
-    @include shadow-box(inset 0px 0px 10em 0em $yellow);
-
-    .mask {
-      opacity: 0;
-      background-color: $yellow;
-      visibility:hidden;
-    }
-  }
-
-  .color-title {
-    font-size: 2em;
-  }
-}
-
-

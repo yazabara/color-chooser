@@ -1,0 +1,14 @@
+@import "../mixins/transition";
+
+.navbar {
+  border: 0;
+  opacity: 0.9;
+
+  .container {
+    @include transition(.3s);
+  }
+
+  .container.scrolled {
+    padding: 1em;
+  }
+}
