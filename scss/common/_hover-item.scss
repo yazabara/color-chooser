@@ -1,9 +1,4 @@
-@mixin webkit-transition($args) {
-  -webkit-transition: $args;
-  -moz-transition: $args;
-  -o-transition: $args;
-  transition: $args;
-}
+@import "../mixins/transition";
 
 .hover-item {
   overflow:hidden;
@@ -13,7 +8,7 @@
     left: 0;
     bottom: 0;
     cursor: pointer;
-    @include webkit-transition(bottom .3s ease-in-out);
+    @include transition(bottom .3s ease-in-out);
   }
 
   &:hover {

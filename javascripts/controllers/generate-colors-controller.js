@@ -1,13 +1,7 @@
-colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterService', 'ColorValidatorService', '$log', '$scope', function (ColorGeneratorService, ColorConverterService, ColorValidatorService, $log, $scope) {
+colorApp.controller("generateColorsController", ['ColorGeneratorService', 'ColorConverterService', 'ColorValidatorService', 'ColorDataStorage', '$scope', function (ColorGeneratorService, ColorConverterService, ColorValidatorService, ColorDataStorage, $scope) {
     'use strict';
 
-    $scope.defaultColor = "#33001e";
-    $scope.generated = [{
-        background: "#F5DEB3",
-        backgroundInput: "#F5DEB3",
-        color: "black"
-    }];
-    $scope.backgroundIndex = 0;
+    $scope.currentData = ColorDataStorage.currentData;
 
     $scope.generateRandom = function(size, initColor) {
         var generateSize = size ? size : 10;
@@ -23,17 +17,17 @@ colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterS
                 color: ColorGeneratorService.generateFontColor(background.substring(1, background.length))
             };
 
-            if ($scope.generated.indexOf(colorItem) == -1)
-                $scope.generated.push(colorItem);
+            if ($scope.currentData.randomColors.indexOf(colorItem) == -1)
+                $scope.currentData.randomColors.push(colorItem);
 
             previous = color;
         }
     };
 
-    $scope.generateRandom(10, $scope.defaultColor);
+    $scope.generateRandom(50);
     $scope.setBackgroundColor = function(index) {
-        if (index < 0 || index >= $scope.generated.length) return;
-        $scope.backgroundIndex = index;
+        if (index < 0 || index >= $scope.currentData.randomColors.length) return;
+        $scope.currentData.randomIndex = index;
     };
 
     $scope.colorChange = function(colorItem) {
@@ -41,7 +35,6 @@ colorApp.controller("generateColors", ['ColorGeneratorService', 'ColorConverterS
             colorItem.background = colorItem.backgroundInput;
             colorItem.color = ColorGeneratorService.generateFontColor(colorItem.background.substring(1, colorItem.background.length));
         }
-        console.log(colorItem);
     };
 
 }]);

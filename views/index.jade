@@ -1,18 +1,8 @@
 extends layouts/layout
 
-block content
-    .content(ng-controller='generateColors', style='background-color: {{generated[backgroundIndex].background}}')
-        .pre-content-line.gradient
-        .bg-color
-            h1= title
-            p Welcome to #{title}
-        .gn-color.color-items
-            .color-item.color-box.hover-item(ng-repeat="colorItem in generated", style="background-color: white")
-                input.color-input(ng-model="colorItem.backgroundInput",ng-change="colorChange(colorItem)", type="text")
-                .top-section.color-box(ng-style="{'background-color' : colorItem.background}",ng-click="setBackgroundColor($index)")
-                    strong.color-title(ng-style="{'color' : colorItem.color}") {{colorItem.background}}
+block header
+    include common-blocks/header
 
-            .color-item.color-box.hover-item.generate-more(ng-click="generateRandom()",style="background-color: white;")
-                strong.color-title(style="color: #C65153;") Generate
-                .top-section.color-box(style="background-color: #18bc9c;")
-                    i.fa.fa-refresh.fa-spin.fa-3x.fa-fw
+block content
+        include sections/random-colors-section
+

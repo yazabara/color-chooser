@@ -1,8 +1,18 @@
 @import "common/colors";
 
 @import "mixins/shadow";
+@import "mixins/transition";
+@import "mixins/gradient";
+
+@import "sections/random-colors-section";
 
 @import "common/footer";
+@import "common/navbar";
 @import "common/gradient";
 @import "common/color-item";
 @import "common/hover-item";
+
+body {
+  @include gradient(left, #70e1f5, #ffd194);
+}
+

@@ -1,0 +1,16 @@
+nav.navbar.navbar-default.navbar-fixed-top(ng-controller='navController', ng-style="{'background-color': currentData.randomColors[currentData.randomIndex].background}")
+    .container(nav-class-directive, nav-class='scrolled')
+        .navbar-header
+            button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+                span.sr-only Toggle navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+            a.navbar-brand(href='#', ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}") Color chooser
+        #navbar.navbar-collapse.collapse(aria-expanded='false', style='height: 1px;')
+            ul.nav.navbar-nav
+                li
+                    a(href='#', ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}") Random colors
+                li
+                    a(href='#', ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}") Selected color
+    .pre-content-line.gradient
