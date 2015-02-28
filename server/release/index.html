@@ -38,27 +38,39 @@
     <script type="text/javascript" src="javascripts/scripts.js"></script>
   </head>
   <body>
-    <div ng-controller="generateColors" style="background-color: {{generated[backgroundIndex].hexColor}}" class="content">
-      <div class="pre-content-line gradient"></div>
-      <div class="bg-color">
-        <h1></h1>
-        <p>Welcome to </p>
-      </div>
-      <div class="gn-color color-items">
-        <div ng-repeat="colorItem in  generated" ng-style="{'background-color' : colorItem.hexColor}" ng-click="setBackgroundColor($index)" class="color-item color-box slideTextLeft">
-          <div class="front"><strong ng-style="{color: {{colorItem.color}}}" class="color-title">{{colorItem.hexColor}}</strong></div>
-          <div class="back color-box">
-            <input ng-model="colorItem.hexColor" type="text" ng-style="{'color' : colorItem.color}" class="color-input">
+    <div class="header">
+      <nav ng-controller="navController" ng-style="{'background-color': currentData.randomColors[currentData.randomIndex].background}" class="navbar navbar-default navbar-fixed-top">
+        <div nav-class-directive nav-class="scrolled" class="container">
+          <div class="navbar-header">
+            <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#" ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}" class="navbar-brand">Color chooser</a>
+          </div>
+          <div id="navbar" aria-expanded="false" style="height: 1px;" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li><a href="#" ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}">Random colors</a></li>
+              <li><a href="#" ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}">Selected color</a></li>
+            </ul>
           </div>
         </div>
-        <div ng-click="generateRandom()" class="color-item color-box masked-box"><strong style="color: #C65153;" class="color-title">Generate</strong>
-          <div class="mask color-box"><strong style="color: #C65153;" class="color-title">More?</strong></div>
+        <div class="pre-content-line gradient"></div>
+      </nav>
+    </div>
+    <div class="content">
+      <section class="random-colors">
+        <h2>Random colors</h2>
+      </section>
+      <div ng-controller="generateColorsController" class="color-items">
+        <div ng-repeat="colorItem in currentData.randomColors" style="background-color: white" class="color-item color-box hover-item">
+          <input ng-model="colorItem.backgroundInput" ng-change="colorChange(colorItem)" type="text" class="color-input">
+          <div ng-style="{'background-color' : colorItem.background}" ng-click="setBackgroundColor($index)" class="top-section color-box"><strong ng-style="{'color' : colorItem.color}" class="color-title">{{colorItem.background}}</strong></div>
+        </div>
+        <div ng-click="generateRandom()" style="background-color: white;" class="color-item color-box hover-item generate-more"><strong style="color: #C65153;" class="color-title">Generate</strong>
+          <div style="background-color: #18bc9c;" class="top-section color-box"><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></div>
         </div>
       </div>
     </div>
     <footer class="footer">
       <div id="footer" class="gradient">
-        <div class="container"><span>Created by Yaroslav Zabara. Maybe I will write some info</span></div>
+        <div class="container"><span>Created by Yaroslav Zabara.</span></div>
       </div>
     </footer>
   </body>
