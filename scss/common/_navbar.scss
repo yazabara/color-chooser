@@ -6,9 +6,25 @@
 
   .container {
     @include transition(.3s);
+    a {
+      font-size: 1.5em;
+      @include transition(.3s);
+      opacity: 0.7;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    a.navbar-brand {
+      opacity: 1;
+    }
   }
 
   .container.scrolled {
     padding: 1em;
+    a {
+      font-size: 2em !important;
+    }
   }
+
 }

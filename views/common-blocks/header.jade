@@ -1,4 +1,4 @@
-nav.navbar.navbar-default.navbar-fixed-top(ng-controller='navController', ng-style="{'background-color': currentData.randomColors[currentData.randomIndex].background}")
+nav.navbar.navbar-default.navbar-fixed-top.italic-font(ng-controller='navController', ng-style="{'background-color': currentData.randomColors[currentData.randomIndex].background}")
     .container(nav-class-directive, nav-class='scrolled')
         .navbar-header
             button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
@@ -6,11 +6,13 @@ nav.navbar.navbar-default.navbar-fixed-top(ng-controller='navController', ng-sty
                 span.icon-bar
                 span.icon-bar
                 span.icon-bar
-            a.navbar-brand(href='#', ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}") Color chooser
+            a.navbar-brand(href='#', ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}",scroll-to-item, scroll-to='#random-colors', scroll-coff='-75') Color chooser
         #navbar.navbar-collapse.collapse(aria-expanded='false', style='height: 1px;')
             ul.nav.navbar-nav
                 li
-                    a(href='#', ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}") Random colors
+                    a(href='#', ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}",scroll-to-item, scroll-to='#random-colors', scroll-coff='-75') Random
                 li
-                    a(href='#', ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}") Selected color
-    .pre-content-line.gradient
+                    a(href='#', ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}",scroll-to-item, scroll-to='#popular-colors', scroll-coff='-75') Most popular
+                li
+                    a(href='#', ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}") Selected
+    //.pre-content-line(ng-style="{'background-color': currentData.randomColors[currentData.randomIndex].color}")
