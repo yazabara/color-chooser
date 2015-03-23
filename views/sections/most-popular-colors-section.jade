@@ -2,10 +2,8 @@ section.most-popular-colors
     h2#popular-colors.italic-font Most popular colors
 
 .color-items(ng-controller='generateColorsController')
-    .color-item.color-box.hover-item(ng-repeat="colorItem in currentData.randomColors", style="background-color: white")
-        input.color-input(ng-model="colorItem.backgroundInput",ng-change="colorChange(colorItem)", type="text")
-        .top-section.color-box(ng-style="{'background-color' : colorItem.background}",ng-click="setBackgroundColor($index)")
-            strong.color-title(ng-style="{'color' : colorItem.color}") {{colorItem.background}}
+    .color-item.color-box(ng-repeat="colorItem in currentData.randomColors", ng-style="{'background-color' : colorItem.background}",ng-click="setBackgroundColor($index)")
+        input.color-input(ng-model="colorItem.backgroundInput",ng-change="colorChange(colorItem)",ng-style="{'color' : colorItem.color}", type="text")
 
     .color-item.color-box.hover-item.generate-more(ng-click="generateRandom()",style="background-color: white;")
         strong.color-title(style="color: #C65153;") Generate
