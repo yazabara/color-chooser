@@ -1,1 +1,449 @@
-var settings={firebaseUrl:"https://blinding-inferno-9356.firebaseio.com/"},colorApp=angular.module("colorApp",[],function(){"use strict"}).constant("FIRE_BASE_URL",settings.firebaseUrl);colorApp.directive("navClassDirective",["$window",function(a){return{restrict:"A",transclude:!0,template:"<div ng-transclude></div>",scope:{navClass:"@",navRangeCoff:"@"},link:function(b,c){var d=function(){var d=b.navRangeCoff?b.navRangeCoff:1;a.pageYOffset>d&&!c.hasClass(b.navClass)&&c.addClass(b.navClass),c.hasClass(b.navClass)&&a.pageYOffset<=d&&c.removeClass(b.navClass)};angular.element(a).bind("load",d),angular.element(a).bind("scroll",d)}}}]),colorApp.factory("ColorConverterService",["$log",function(){"use strict";function a(a,b,c){a/=255,b/=255,c/=255;var d,e,f=Math.max(a,b,c),g=Math.min(a,b,c),h=(f+g)/2;if(f==g)d=e=0;else{var i=f-g;switch(e=h>.5?i/(2-f-g):i/(f+g),f){case a:d=(b-c)/i+(c>b?6:0);break;case b:d=(c-a)/i+2;break;case c:d=(a-b)/i+4}d/=6}return[d,e,h]}function b(a,b,d){var e,f,g;if(0==b)e=f=g=d;else{var h=.5>d?d*(1+b):d+b-d*b,i=2*d-h;e=c(i,h,a+1/3),f=c(i,h,a),g=c(i,h,a-1/3)}return[255*e,255*f,255*g]}function c(a,b,c){return 0>c&&(c+=1),c>1&&(c-=1),1/6>c?a+6*(b-a)*c:.5>c?b:2/3>c?a+(b-a)*(2/3-c)*6:a}function d(a,b,c){a/=255,b/=255,c/=255;var d,e,f=Math.max(a,b,c),g=Math.min(a,b,c),h=f,i=f-g;if(e=0==f?0:i/f,f==g)d=0;else{switch(f){case a:d=(b-c)/i+(c>b?6:0);break;case b:d=(c-a)/i+2;break;case c:d=(a-b)/i+4}d/=6}return[d,e,h]}function e(a,b,c){var d,e,f,g=Math.floor(6*a),h=6*a-g,i=c*(1-b),j=c*(1-h*b),k=c*(1-(1-h)*b);switch(g%6){case 0:d=c,e=k,f=i;break;case 1:d=j,e=c,f=i;break;case 2:d=i,e=c,f=k;break;case 3:d=i,e=j,f=c;break;case 4:d=k,e=i,f=c;break;case 5:d=c,e=i,f=j}return[255*d,255*e,255*f]}function f(a,b,c){return"#"+g(a)+g(b)+g(c)}function g(a){var b="0123456789ABCDEF";return String(b.substr(a>>4&15,1))+b.substr(15&a,1)}function h(a){if(!a)return i;var b=/^#?([a-f\d])([a-f\d])([a-f\d])$/i;a=a.replace(b,function(a,b,c,d){return b+b+c+c+d+d});var c=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(a);return c?{red:parseInt(c[1],16),green:parseInt(c[2],16),blue:parseInt(c[3],16)}:i}var i={red:255,green:255,blue:255};return{hsvToRgb:e,rgbToHsv:d,hslToRgb:b,rgbToHsl:a,rgbToHex:f,hexToRgb:h}}]),colorApp.factory("ColorGeneratorService",["$log",function(){"use strict";function a(a){var b=c(),d=c(),e=c();return a&&(b=(b+a.red)/2,d=(d+a.green)/2,e=(e+a.blue)/2),{red:b,green:d,blue:e}}function b(a){var b=parseInt(a.substr(0,2),16),c=parseInt(a.substr(2,2),16),d=parseInt(a.substr(4,2),16),e=(299*b+587*c+114*d)/1e3;return e>=128?"black":"white"}function c(){return 256*Math.random()}return{generateRandomColor:a,generateFontColor:b}}]),colorApp.factory("ColorValidatorService",["$log",function(){"use strict";function a(a){if(""===a)return!1;if("inherit"===a)return!1;if("transparent"===a)return!1;var b=document.createElement("img");return b.style.color="rgb(0, 0, 0)",b.style.color=a,"rgb(0, 0, 0)"!==b.style.color?!0:(b.style.color="rgb(255, 255, 255)",b.style.color=a,"rgb(255, 255, 255)"!==b.style.color)}return{validateColour:a}}]),colorApp.factory("ColorDataStorage",function(){var a={randomColors:[{background:"#313F7C",backgroundInput:"#313F7C",color:"white"}],randomIndex:0};return{currentData:a}}),colorApp.controller("generateColorsController",["ColorGeneratorService","ColorConverterService","ColorValidatorService","ColorDataStorage","$scope",function(a,b,c,d,e){"use strict";e.currentData=d.currentData,e.generateRandom=function(c,d){for(var f=c?c:10,g=d?b.hexToRgb(d):a.generateRandomColor(null),h=0;f>h;h++){var i=a.generateRandomColor(g),j=b.rgbToHex(i.red,i.green,i.blue),k={background:j,backgroundInput:j,color:a.generateFontColor(j.substring(1,j.length))};-1==e.currentData.randomColors.indexOf(k)&&e.currentData.randomColors.push(k),g=i}},e.generateRandom(50),e.setBackgroundColor=function(a){0>a||a>=e.currentData.randomColors.length||(e.currentData.randomIndex=a)},e.colorChange=function(b){c.validateColour(b.backgroundInput)&&(b.background=b.backgroundInput,b.color=a.generateFontColor(b.background.substring(1,b.background.length)))}}]),colorApp.controller("navController",["ColorDataStorage","$scope",function(a,b){"use strict";b.currentData=a.currentData}]);
+var settings = {
+    firebaseUrl: 'https://blinding-inferno-9356.firebaseio.com/'
+};
+
+var colorApp = angular.module('colorApp', [], function () {
+    'use strict';
+
+}).constant('FIRE_BASE_URL', settings.firebaseUrl);
+/**
+ * Модуль для добавления "красивости" для навигатора.
+ * Добавляте класс, когда pageYOffset будет больше чем заданный коэффициент.
+ */
+colorApp.directive('navClassDirective', ['$window', function($window) {
+    return {
+        restrict: 'A',
+        transclude: true,
+        template: '<div ng-transclude></div>',
+        scope: {
+            navClass: '@',
+            navRangeCoff: '@'
+        },
+        link: function($scope, elem) {
+
+            var updateClass = function () {
+                var coff = $scope.navRangeCoff ? $scope.navRangeCoff : 1;
+                if ($window.pageYOffset > coff && !elem.hasClass($scope.navClass)) {
+                    elem.addClass($scope.navClass);
+                }
+                if (elem.hasClass($scope.navClass) && $window.pageYOffset <= coff) {
+                    elem.removeClass($scope.navClass);
+                }
+            };
+
+            angular.element($window).bind('load', updateClass);
+            angular.element($window).bind("scroll", updateClass);
+        }
+    };
+}]);
+colorApp.directive('scrollToItem', function () {
+	return {
+		restrict: 'A',
+		scope: {
+			scrollTo: "@",
+			scrollEffect: "@",
+            scrollCoff: "@"
+		},
+		link: function ($scope, $elm) {
+			$elm.on('click', function () {
+                var coff = parseInt($scope.scrollCoff ? $scope.scrollCoff : 0);
+				$('html,body').animate({
+					scrollTop: $($scope.scrollTo).offset().top + coff
+				}, $scope.scrollEffect ? $scope.scrollEffect : "slow");
+			});
+		}
+	}
+});
+colorApp.directive('soundcloud', function ($http) {
+    function link(scope) {
+        var clientid = 'b23455855ab96a4556cbd0a98397ae8c';
+        $http({
+            method: 'GET',
+            url: 'http://api.soundcloud.com/tracks/' + scope.track + '.json?client_id=' + clientid
+        }).success(function (data) {
+            scope.stream = data.stream_url + '?client_id=' + clientid;
+            scope.song = new Audio();
+            scope.play();
+        });
+
+        scope.playing = false;
+        scope.play = function () {
+            scope.playing = !scope.playing;
+            if (!scope.playing) {
+                scope.song.pause();
+            }
+            else {
+                if (scope.song.src == '') {
+                    scope.song.src = scope.stream;
+                }
+                scope.song.play();
+            }
+        };
+    }
+
+    return {
+        restrict: 'E',
+        scope: {
+            track: '=track'
+        },
+        templateUrl: 'templates/soundcloud.html',
+        link: link
+    };
+});
+/**
+ * Information from http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+ */
+colorApp.factory('ColorConverterService', ['$log', function ($log) {
+    'use strict';
+
+    var rgbWhite = {
+        red:255,
+        green: 255,
+        blue: 255
+    };
+
+    /**
+     * Converts an RGB color value to HSL. Conversion formula
+     * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+     * Assumes r, g, and b are contained in the set [0, 255] and
+     * returns h, s, and l in the set [0, 1].
+     *
+     * @param   r       The red color value
+     * @param   g       The green color value
+     * @param   b       The blue color value
+     * @return  Array   The HSL representation
+     */
+    function rgbToHsl(r, g, b) {
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var h, s, l = (max + min) / 2;
+
+        if (max == min) {
+            h = s = 0; // achromatic
+        } else {
+            var d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+            switch (max) {
+                case r:
+                    h = (g - b) / d + (g < b ? 6 : 0);
+                    break;
+                case g:
+                    h = (b - r) / d + 2;
+                    break;
+                case b:
+                    h = (r - g) / d + 4;
+                    break;
+            }
+            h /= 6;
+        }
+
+        return [h, s, l];
+    }
+
+    /**
+     * Converts an HSL color value to RGB. Conversion formula
+     * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+     * Assumes h, s, and l are contained in the set [0, 1] and
+     * returns r, g, and b in the set [0, 255].
+     *
+     * @param  h       The hue
+     * @param  s       The saturation
+     * @param  l       The lightness
+     * @return Array   The RGB representation
+     */
+    function hslToRgb(h, s, l) {
+        var r, g, b;
+
+        if (s == 0) {
+            r = g = b = l; // achromatic
+        } else {
+            var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            var p = 2 * l - q;
+            r = _hue2rgb(p, q, h + 1 / 3);
+            g = _hue2rgb(p, q, h);
+            b = _hue2rgb(p, q, h - 1 / 3);
+        }
+
+        return [r * 255, g * 255, b * 255];
+    }
+
+    function _hue2rgb(p, q, t) {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+    }
+
+    /**
+     * Converts an RGB color value to HSV. Conversion formula
+     * adapted from http://en.wikipedia.org/wiki/HSV_color_space.
+     * Assumes r, g, and b are contained in the set [0, 255] and
+     * returns h, s, and v in the set [0, 1].
+     *
+     * @param   r       The red color value
+     * @param   g       The green color value
+     * @param   b       The blue color value
+     * @return  Array   The HSV representation
+     */
+    function rgbToHsv(r, g, b) {
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var h, s, v = max;
+
+        var d = max - min;
+        s = max == 0 ? 0 : d / max;
+
+        if (max == min) {
+            h = 0; // achromatic
+        } else {
+            switch (max) {
+                case r:
+                    h = (g - b) / d + (g < b ? 6 : 0);
+                    break;
+                case g:
+                    h = (b - r) / d + 2;
+                    break;
+                case b:
+                    h = (r - g) / d + 4;
+                    break;
+            }
+            h /= 6;
+        }
+
+        return [h, s, v];
+    }
+
+    /**
+     * Converts an HSV color value to RGB. Conversion formula
+     * adapted from http://en.wikipedia.org/wiki/HSV_color_space.
+     * Assumes h, s, and v are contained in the set [0, 1] and
+     * returns r, g, and b in the set [0, 255].
+     *
+     * @param   h       The hue
+     * @param   s       The saturation
+     * @param   v       The value
+     * @return  Array   The RGB representation
+     */
+    function hsvToRgb(h, s, v) {
+        var r, g, b;
+
+        var i = Math.floor(h * 6);
+        var f = h * 6 - i;
+        var p = v * (1 - s);
+        var q = v * (1 - f * s);
+        var t = v * (1 - (1 - f) * s);
+
+        switch (i % 6) {
+            case 0:
+                r = v;
+                g = t;
+                b = p;
+                break;
+            case 1:
+                r = q;
+                g = v;
+                b = p;
+                break;
+            case 2:
+                r = p;
+                g = v;
+                b = t;
+                break;
+            case 3:
+                r = p;
+                g = q;
+                b = v;
+                break;
+            case 4:
+                r = t;
+                g = p;
+                b = v;
+                break;
+            case 5:
+                r = v;
+                g = p;
+                b = q;
+                break;
+        }
+
+        return [r * 255, g * 255, b * 255];
+    }
+
+    function rgbToHex(r, g, b) {
+        return '#' + byte2Hex(r) + byte2Hex(g) + byte2Hex(b);
+    }
+
+    function byte2Hex(n) {
+        var nybHexString = "0123456789ABCDEF";
+        return String(nybHexString.substr((n >> 4) & 0x0F, 1)) + nybHexString.substr(n & 0x0F, 1);
+    }
+
+    function hexToRgb(hex) {
+        if (!hex) return rgbWhite;
+
+        // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+            return r + r + g + g + b + b;
+        });
+
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            red: parseInt(result[1], 16),
+            green: parseInt(result[2], 16),
+            blue: parseInt(result[3], 16)
+        } : rgbWhite;
+    }
+
+    return {
+        hsvToRgb: hsvToRgb,
+        rgbToHsv: rgbToHsv,
+        hslToRgb: hslToRgb,
+        rgbToHsl: rgbToHsl,
+        rgbToHex: rgbToHex,
+        hexToRgb: hexToRgb
+    }
+
+}]);
+/**
+ * Information from http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
+ */
+colorApp.factory('ColorGeneratorService', ['$log', function ($log) {
+    'use strict';
+
+    function generateRandomColor(mix) {
+        var red = nextColorNumber();
+        var green = nextColorNumber();
+        var blue = nextColorNumber();
+        // mix the color
+        if (mix) {
+            red = (red + mix.red) / 2;
+            green = (green + mix.green) / 2;
+            blue = (blue + mix.blue) / 2;
+        }
+        return {
+            red: red,
+            green: green,
+            blue: blue
+        };
+    }
+
+    //generateFontColor
+    function getContrast50(hexcolor){
+        return (parseInt(hexcolor, 16) > 0xffffff/2) ? 'black':'white';
+    }
+
+    //generateFontColor
+    function getContrastYIQ(hexcolor){
+        var r = parseInt(hexcolor.substr(0,2),16);
+        var g = parseInt(hexcolor.substr(2,2),16);
+        var b = parseInt(hexcolor.substr(4,2),16);
+        var yiq = ((r*299)+(g*587)+(b*114))/1000;
+        return (yiq >= 128) ? 'black' : 'white';
+    }
+
+    /**
+     * method maks number [0,256]
+     * @returns {number}
+     */
+    function nextColorNumber() {
+        return Math.random() * 256;
+    }
+
+    return {
+        generateRandomColor: generateRandomColor,
+        generateFontColor: getContrastYIQ
+    }
+
+}]);
+colorApp.factory('ColorValidatorService', ['$log', function ($log) {
+    'use strict';
+
+    function validateColour(stringToTest) {
+        if (stringToTest === "") { return false; }
+        if (stringToTest === "inherit") { return false; }
+        if (stringToTest === "transparent") { return false; }
+
+        var image = document.createElement("img");
+        image.style.color = "rgb(0, 0, 0)";
+        image.style.color = stringToTest;
+        if (image.style.color !== "rgb(0, 0, 0)") { return true; }
+        image.style.color = "rgb(255, 255, 255)";
+        image.style.color = stringToTest;
+        return image.style.color !== "rgb(255, 255, 255)";
+    }
+
+    return {
+        validateColour: validateColour
+    }
+}]);
+
+
+colorApp.factory('ColorDataStorage', function(){
+
+    /** Текушие данные пользователя */
+    var currentData = {
+        randomColors : [{
+            background: "#313F7C",
+            backgroundInput: "#313F7C",
+            color: "white"
+        }],
+        randomIndex: 0
+    };
+
+    return {
+        currentData: currentData
+    };
+});
+colorApp.controller("generateColorsController", ['ColorGeneratorService', 'ColorConverterService', 'ColorValidatorService', 'ColorDataStorage', '$scope', function (ColorGeneratorService, ColorConverterService, ColorValidatorService, ColorDataStorage, $scope) {
+    'use strict';
+
+    $scope.currentData = ColorDataStorage.currentData;
+
+    $scope.generateRandom = function(size, initColor) {
+        var generateSize = size ? size : 10;
+        var previous = initColor ? ColorConverterService.hexToRgb(initColor) : ColorGeneratorService.generateRandomColor(null);
+
+        for (var i = 0; i < generateSize; i++) {
+            var color = ColorGeneratorService.generateRandomColor(previous);
+            var background = ColorConverterService.rgbToHex(color.red, color.green, color.blue);
+
+            var colorItem = {
+                background: background,
+                backgroundInput: background,
+                color: ColorGeneratorService.generateFontColor(background.substring(1, background.length))
+            };
+
+            if ($scope.currentData.randomColors.indexOf(colorItem) == -1)
+                $scope.currentData.randomColors.push(colorItem);
+
+            previous = color;
+        }
+    };
+
+    $scope.generateRandom(50);
+    $scope.setBackgroundColor = function(index) {
+        if (index < 0 || index >= $scope.currentData.randomColors.length) return;
+        $scope.currentData.randomIndex = index;
+    };
+
+    $scope.colorChange = function(colorItem) {
+        if(ColorValidatorService.validateColour(colorItem.backgroundInput)) {
+            colorItem.background = colorItem.backgroundInput;
+            colorItem.color = ColorGeneratorService.generateFontColor(colorItem.background.substring(1, colorItem.background.length));
+        }
+    };
+
+}]);
+colorApp.controller("navController", ['ColorDataStorage', '$scope', function (ColorDataStorage, $scope) {
+    'use strict';
+
+    $scope.currentData = ColorDataStorage.currentData;
+
+}]);

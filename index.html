@@ -12,9 +12,13 @@
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
     <!--icons-awesome-->
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <!--fonts-->
+    <link href="http://fonts.googleapis.com/css?family=Niconne" rel="stylesheet" type="text/css">
     <!--Jquery-->
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <!--script(type="text/javascript", src="javascripts/libs/jquery-1.11.1.js")-->
+    <!--soundcloud API-->
+    <script type="text/javascript" src="http://w.soundcloud.com/player/api.js"></script>
     <!--AngularJS-->
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.min.js"></script>
     <!--script(type="text/javascript", src="javascripts/libs/angular.min.js")-->
@@ -39,29 +43,41 @@
   </head>
   <body>
     <div class="header">
-      <nav ng-controller="navController" ng-style="{'background-color': currentData.randomColors[currentData.randomIndex].background}" class="navbar navbar-default navbar-fixed-top">
+      <nav ng-controller="navController" ng-style="{'background-color': currentData.randomColors[currentData.randomIndex].background}" class="navbar navbar-default navbar-fixed-top italic-font">
         <div nav-class-directive nav-class="scrolled" class="container">
           <div class="navbar-header">
-            <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#" ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}" class="navbar-brand">Color chooser</a>
+            <soundcloud track="65576692"></soundcloud>
+            <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#" ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}" scroll-to-item scroll-to="#random-colors" scroll-coff="-75" class="navbar-brand">Color chooser</a>
           </div>
           <div id="navbar" aria-expanded="false" style="height: 1px;" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="#" ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}">Random colors</a></li>
-              <li><a href="#" ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}">Selected color</a></li>
+              <li><a href="#" ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}" scroll-to-item scroll-to="#random-colors" scroll-coff="-75">Random</a></li>
+              <li><a href="#" ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}" scroll-to-item scroll-to="#popular-colors" scroll-coff="-75">Most popular</a></li>
+              <li><a href="#" ng-style="{'color': currentData.randomColors[currentData.randomIndex].color}">Selected</a></li>
             </ul>
           </div>
         </div>
-        <div class="pre-content-line gradient"></div>
       </nav>
     </div>
     <div class="content">
       <section class="random-colors">
-        <h2>Random colors</h2>
+        <h2 id="random-colors" class="italic-font">Random colors</h2>
+        <div ng-controller="generateColorsController" class="color-items">
+          <div ng-repeat="colorItem in currentData.randomColors" style="background-color: white" class="color-item color-box hover-item">
+            <input ng-model="colorItem.backgroundInput" ng-change="colorChange(colorItem)" type="text" class="color-input">
+            <div ng-style="{'background-color' : colorItem.background}" ng-click="setBackgroundColor($index)" class="top-section color-box"><strong ng-style="{'color' : colorItem.color}" class="color-title">{{colorItem.background}}</strong></div>
+          </div>
+          <div ng-click="generateRandom()" style="background-color: white;" class="color-item color-box hover-item generate-more"><strong style="color: #C65153;" class="color-title">Generate</strong>
+            <div style="background-color: #18bc9c;" class="top-section color-box"><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></div>
+          </div>
+        </div>
+      </section>
+      <section class="most-popular-colors">
+        <h2 id="popular-colors" class="italic-font">Most popular colors</h2>
       </section>
       <div ng-controller="generateColorsController" class="color-items">
-        <div ng-repeat="colorItem in currentData.randomColors" style="background-color: white" class="color-item color-box hover-item">
-          <input ng-model="colorItem.backgroundInput" ng-change="colorChange(colorItem)" type="text" class="color-input">
-          <div ng-style="{'background-color' : colorItem.background}" ng-click="setBackgroundColor($index)" class="top-section color-box"><strong ng-style="{'color' : colorItem.color}" class="color-title">{{colorItem.background}}</strong></div>
+        <div ng-repeat="colorItem in currentData.randomColors" ng-style="{'background-color' : colorItem.background}" ng-click="setBackgroundColor($index)" class="color-item color-box">
+          <input ng-model="colorItem.backgroundInput" ng-change="colorChange(colorItem)" ng-style="{'color' : colorItem.color}" type="text" class="color-input">
         </div>
         <div ng-click="generateRandom()" style="background-color: white;" class="color-item color-box hover-item generate-more"><strong style="color: #C65153;" class="color-title">Generate</strong>
           <div style="background-color: #18bc9c;" class="top-section color-box"><i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></div>
